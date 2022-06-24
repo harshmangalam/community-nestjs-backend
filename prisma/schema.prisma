@@ -22,11 +22,12 @@ model User {
 }
 
 model Tag {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String
-  articles  Article[] @relation("ArticlesTags")
+  id         String    @id @default(uuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  name       String
+  coverImage String?
+  articles   Article[] @relation("ArticlesTags")
 }
 
 model Article {
