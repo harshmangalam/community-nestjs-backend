@@ -12,11 +12,9 @@ export class AuthController {
     @Body() body: AuthLoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const token = await this.authService.login(body);
-    response.cookie('token', token);
-    return {
-      token,
-    };
+    const data = await this.authService.login(body);
+    response.cookie('token', data.token);
+    return data
   }
 
   @Post('signup')

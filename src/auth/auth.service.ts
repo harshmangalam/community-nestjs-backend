@@ -47,10 +47,6 @@ export class AuthService {
       where: {
         email,
       },
-      select: {
-        id: true,
-        password: true,
-      },
     });
 
     if (!user) {
@@ -76,6 +72,9 @@ export class AuthService {
       },
     );
 
-    return token;
+    return {
+      token,
+      user,
+    };
   }
 }
