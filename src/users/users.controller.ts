@@ -9,10 +9,9 @@ export class UsersController {
 
   @Get('me')
   @UseGuards(JwtGuard)
-  getCurrentUser(@CurrentUser() user, @CurrentUser('name') name: string) {
+  getCurrentUser(@CurrentUser() user) {
     return {
       user,
-      name,
     };
   }
 }
