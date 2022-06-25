@@ -4,6 +4,8 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
+import { ArticlesService } from './articles/articles.service';
+import { ArticlesModule } from './articles/articles.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { TagsModule } from './tags/tags.module';
     PrismaModule,
     UsersModule,
     TagsModule,
+    ArticlesModule,
   ],
+  providers: [ArticlesService],
 })
 export class AppModule {}
