@@ -14,7 +14,7 @@ export class AuthController {
   ) {
     const data = await this.authService.login(body);
     response.cookie('token', data.token);
-    return data
+    return data;
   }
 
   @Post('signup')
@@ -22,8 +22,13 @@ export class AuthController {
     return this.authService.signup(body);
   }
 
-  @Get('me')
-  getMe() {
-    return { user: null };
+  @Get('logout')
+  logout(@Res({ passthrough: true }) response: Response) {
+    response.cookie('token', '', {
+      expires: new Date(0),
+    });
+    return {
+      logout: true,
+    };
   }
 }
