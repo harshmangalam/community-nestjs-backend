@@ -32,6 +32,35 @@ export class ArticlesService {
     }
   }
 
+  async getArticleDetail(articleId: string) {
+    try {
+      const article = await this.prisma.article.findUnique({
+        where: {
+          id: articleId,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          tags: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      return {
+        article,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createArticle(authorId: string, body: CreateArticleDto) {
     try {
       const totalWord = body.content.split(' ').length;
@@ -41,7 +70,6 @@ export class ArticlesService {
       const [first, rest] = totalEst.toString().split('.');
 
       let min = Number(first);
-   
 
       const article = await this.prisma.article.create({
         data: {
