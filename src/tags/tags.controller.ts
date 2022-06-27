@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorator/current-user.decorator';
+import { JwtGuard } from 'src/auth/guard';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TagsService } from './tags.service';
 
@@ -18,5 +28,14 @@ export class TagsController {
   @Post()
   async createTag(@Body() data: CreateTagDto) {
     return this.tagsService.createTag(data);
+  }
+
+  @Patch("/:tagId/followUnfollow")
+  @UseGuards(JwtGuard)
+  async followUnfollowTag(
+    @Param('tagId') tagId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return this.tagsService.followUnfollowTag(tagId, userId);
   }
 }

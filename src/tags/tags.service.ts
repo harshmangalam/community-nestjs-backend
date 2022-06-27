@@ -30,6 +30,7 @@ export class TagsService {
         _count: {
           select: {
             articles: true,
+            followers: true,
           },
         },
 
@@ -65,6 +66,63 @@ export class TagsService {
 
       return {
         tag,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async followUnfollowTag(tagId: string, userId: string) {
+    try {
+      let message = '';
+      const isFollowing = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          followingTags: {
+            where: {
+              id: tagId,
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
+      if (isFollowing.followingTags.length) {
+        const tag = await this.prisma.tag.update({
+          where: {
+            id: tagId,
+          },
+          data: {
+            followers: {
+              disconnect: {
+                id: userId,
+              },
+            },
+          },
+        });
+        message = `You are no longer following ${tag.name}`;
+      } else {
+        const tag = await this.prisma.tag.update({
+          where: {
+            id: tagId,
+          },
+          data: {
+            followers: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+        });
+        message = `You are started follwoing ${tag.name}`;
+      }
+
+      return {
+        message,
       };
     } catch (error) {
       throw error;
