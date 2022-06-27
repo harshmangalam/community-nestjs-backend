@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  articles  Article[] @relation("ArticlesAuthor")
-  role      UserRole  @default(AUTHOR)
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  articles      Article[] @relation("ArticlesAuthor")
+  role          UserRole  @default(AUTHOR)
+  followingTags Tag[]     @relation("UsersFollowingTags")
 }
 
 model Tag {
@@ -28,6 +29,7 @@ model Tag {
   name       String
   coverImage String?
   articles   Article[] @relation("ArticlesTags")
+  followers  User[]    @relation("UsersFollowingTags")
 }
 
 model Article {
