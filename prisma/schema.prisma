@@ -20,6 +20,7 @@ model User {
   articles      Article[] @relation("ArticlesAuthor")
   role          UserRole  @default(AUTHOR)
   followingTags Tag[]     @relation("UsersFollowingTags")
+  likedArticles Article[] @relation("UsersArticlesLike")
 }
 
 model Tag {
@@ -43,6 +44,7 @@ model Article {
   authorId   String
   readTime   String
   coverImage String?
+  likes      User[]   @relation("UsersArticlesLike")
 
 
 }
